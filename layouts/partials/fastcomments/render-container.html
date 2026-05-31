@@ -1,0 +1,43 @@
+{{- /*
+  Shared renderer for "container" widgets: widgets that create and own their own
+  DOM element (comments, comment-count, live-chat, recent-comments, etc.).
+
+  Port of renderContainerWidget() in fastcomments-11ty/src/render-widget.ts.
+
+  Expects a dict:
+    containerTag  string   - "div" or "span"
+    idPrefix      string   - prefix for the generated container id
+    scriptPath    string   - CDN path, e.g. "/js/embed-v2.min.js"
+    marker        string   - attribute used to inject the script only once per page
+    globalName    string   - window function that mounts the widget
+    config        map      - the FastComments widget config (must include tenantId)
+    seed          string   - unique-per-instance seed for the generated id
+    useCallback   bool     - (optional) widget takes a node-style (err) callback
+    errorLabel    string   - (optional) human label used in console messages
+    id            string   - (optional) explicit container id, overrides the generated one
+*/ -}}
+{{- $config := .config -}}
+{{- $region := index $config "region" -}}
+{{- $cdn := cond (eq $region "eu") "https://cdn-eu.fastcomments.com" "https://cdn.fastcomments.com" -}}
+{{- $src := printf "%s%s" $cdn .scriptPath -}}
+{{- $id := .id | default (printf "%s-%s" .idPrefix (substr (crypto.SHA256 .seed) 0 8)) -}}
+{{- $label := .errorLabel | default .globalName -}}
+{{- $g := .globalName -}}
+
+{{- $idJson := partial "fastcomments/escape-json.html" $id -}}
+{{- $cfgJson := partial "fastcomments/escape-json.html" $config -}}
+{{- $srcJson := partial "fastcomments/escape-json.html" $src -}}
+{{- $markerJson := partial "fastcomments/escape-json.html" .marker -}}
+{{- $warnJson := partial "fastcomments/escape-json.html" (printf "FastComments %s script did not load within 5s; continuing to retry every 1s." $label) -}}
+
+{{- $initBody := "" -}}
+{{- if .useCallback -}}
+  {{- $errJson := partial "fastcomments/escape-json.html" (printf "FastComments %s Load Failure" $label) -}}
+  {{- $initBody = printf "if(window.%s){window.%s(el,config,function(error){if(error){console.error(%s,error);}});}else{schedule();}" $g $g $errJson -}}
+{{- else -}}
+  {{- $initBody = printf "if(window.%s){window.%s(el,config);}else{schedule();}" $g $g -}}
+{{- end -}}
+
+{{- $js := printf "(function(){var containerId=%s;var config=%s;var scriptSrc=%s;var marker=%s;var startedAt=Date.now();var warned=false;function schedule(){var elapsed=Date.now()-startedAt;if(elapsed>=5000&&!warned){warned=true;console.warn(%s);}setTimeout(init,elapsed<5000?50:1000);}function init(){var el=document.getElementById(containerId);%s}if(!document.querySelector('script['+marker+']')){var s=document.createElement('script');s.src=scriptSrc;s.setAttribute(marker,'');document.head.appendChild(s);}init();})();" $idJson $cfgJson $srcJson $markerJson $warnJson $initBody -}}
+{{- /* Static tag names: a dynamic `<{{ .containerTag }}` would make html/template escape the leading `<`. */ -}}
+{{- if eq .containerTag "span" -}}<span id="{{ $id }}"></span>{{- else -}}<div id="{{ $id }}"></div>{{- end -}}<script>{{ $js | safeJS }}</script>

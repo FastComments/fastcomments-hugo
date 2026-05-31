@@ -1,0 +1,37 @@
+{{- /*
+  Returns a map of lowercased -> canonical (camelCase) names for every data-only
+  FastComments widget config key.
+
+  Hugo lowercases all site-param and front-matter keys (tenantId -> tenantid), but
+  the widgets require camelCase. config.html uses this map to restore each key.
+
+  The key list is an inline `slice` literal rather than a data file on purpose:
+  reading a data file needs site.Data (deprecated) or hugo.Data (added in Hugo
+  0.156), either of which would raise the minimum Hugo version. A slice literal
+  preserves case and works on every Hugo in the declared support range. Callers
+  wrap this in partialCached, so the map is built once per site build.
+
+  SSO keys (sso, simpleSSO) and function callbacks (onInit, onVoteSuccess, ...)
+  are intentionally omitted: they cannot be expressed in a static, build-time config.
+*/ -}}
+{{- $names := slice
+  "tenantId" "urlId" "url" "region" "defaultAvatarSrc" "hasDarkBackground"
+  "moderationGroupIds" "startingPage" "pageTitle" "commentCountFormat" "originalReferrer"
+  "hideAvatars" "readonly" "noNewRootComments" "inputAfterComments" "maxCommentCharacterLength"
+  "absoluteDates" "absoluteAndRelativeDates" "customCSS" "hideCommentsUnderCountTextFormat"
+  "useShowCommentsToggle" "headerHTML" "debugRenderTime" "noStyles" "allowAnon" "allowAnonVotes"
+  "disableBlocking" "disableEmailInputs" "disableUnverifiedLabel" "disableMentions" "defaultUsername"
+  "noImageUploads" "disableToolbar" "locale" "countAll" "showLiveRightAway" "alwaysConnect"
+  "enableCommenterLinks" "enableViewCounts" "defaultSortDirection" "useSingleLineCommentInput"
+  "paginationBeforeComments" "showDateInline" "gifRating" "disableImageRedirect" "newCommentsToBottom"
+  "collapseReplies" "maxReplyDepth" "mentionGroupIds" "disableLiveCommenting" "disableSuccessMessage"
+  "disableNotificationBell" "disableProfiles" "disableVoting" "inlineReactImages" "experimentalWYSIWYG"
+  "enableWYSIWYG" "enableResizeHandle" "useSingleReplyField" "enableInfiniteScrolling" "usersListLocation"
+  "usersListIncludeOffline" "userId" "ssoTenantId" "jumpToId" "apiHost" "wsHost" "usePolling"
+  "translations" "productId" "voteStyle" "jumpToHashTag" "noCustomConfig" "enableVoteList"
+  "wrap" "enableSearch" "ignoreCommentMenuHeight" "showBadgesInTopBar"
+  "numberOnly" "isLive" "count" "target"
+-}}
+{{- $canon := dict -}}
+{{- range $k := $names -}}{{- $canon = merge $canon (dict (lower $k) $k) -}}{{- end -}}
+{{- return $canon -}}

@@ -1,0 +1,11 @@
+{{ define "main" }}
+<article>
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  {{- /* Disqus-style theme wiring: self-gates on tenantId and `comments = false`.
+        Showcase pages that demonstrate a different widget opt out via front matter. */ -}}
+  <div class="widget">
+    {{ partial "fastcomments/comments.html" . }}
+  </div>
+</article>
+{{ end }}

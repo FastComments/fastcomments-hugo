@@ -1,0 +1,7 @@
+{{- /* Image annotation comments. Requires `target` (CSS selector) in config. Expects: { config: <map> }. */ -}}
+{{- partial "fastcomments/render-selector.html" (dict
+    "scriptPath" "/js/embed-image-chat.min.js"
+    "marker" "data-fc-image-chat"
+    "globalName" "FastCommentsImageChat"
+    "shortcodeName" "fastcomments-image-chat"
+    "config" .config) -}}

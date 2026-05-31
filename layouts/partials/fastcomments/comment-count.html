@@ -1,0 +1,9 @@
+{{- /* Inline comment-count badge. Expects: { config: <map>, seed: <string> }. */ -}}
+{{- partial "fastcomments/render-container.html" (dict
+    "containerTag" "span"
+    "idPrefix" "fc-count"
+    "scriptPath" "/js/widget-comment-count.min.js"
+    "marker" "data-fc-count"
+    "globalName" "FastCommentsCommentCount"
+    "config" .config
+    "seed" .seed) -}}

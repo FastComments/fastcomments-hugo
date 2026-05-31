@@ -1,0 +1,4 @@
+{{- /* {{< fastcomments-comment-count-bulk >}} - fills in counts for every element with
+       class="fast-comments-count" data-fast-comments-url-id="..." on the page. Place the
+       marker elements yourself; this emits the single bulk request. */ -}}
+{{- partial "fastcomments/bulk-count.html" (dict "page" .Page "args" .Params) -}}

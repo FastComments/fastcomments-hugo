@@ -1,0 +1,20 @@
+{{- /*
+  Theme entrypoint for the main comments widget, modeled on Hugo's built-in Disqus
+  template. Add this one line to your theme's single template:
+
+      {{ partial "fastcomments/comments.html" . }}
+
+  Renders only when a tenantId is configured (site param or front matter) and the
+  page has not opted out with `comments = false` in its front matter.
+
+  Expects the page (.) as context.
+*/ -}}
+{{- $cfg := partial "fastcomments/config.html" (dict "page" .) -}}
+{{- $tenantId := index $cfg "tenantId" -}}
+{{- $optedOut := false -}}
+{{- if isset .Params "comments" -}}
+  {{- $optedOut = eq .Params.comments false -}}
+{{- end -}}
+{{- if and $tenantId (not $optedOut) -}}
+  {{- partial "fastcomments/widget.html" (dict "config" $cfg "seed" .RelPermalink) -}}
+{{- end -}}

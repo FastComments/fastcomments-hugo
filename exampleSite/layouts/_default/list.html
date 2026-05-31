@@ -1,0 +1,11 @@
+{{ define "main" }}
+<h1>{{ site.Title }}</h1>
+{{ .Content }}
+<p>Every widget shipped by <code>fastcomments-hugo</code>, running against the public <code>demo</code> tenant. The count next to each link is the bulk comment-count widget, filling in every page's count in one request:</p>
+<ul>
+  {{ range .Pages.ByTitle }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a> {{ partial "fastcomments/count-marker.html" . }}{{ with .Description }} - {{ . }}{{ end }}</li>
+  {{ end }}
+</ul>
+{{ partial "fastcomments/bulk-count.html" (dict "page" .) }}
+{{ end }}

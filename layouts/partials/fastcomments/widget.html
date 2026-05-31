@@ -1,0 +1,9 @@
+{{- /* Main live comments widget. Expects: { config: <map>, seed: <string> }. */ -}}
+{{- partial "fastcomments/render-container.html" (dict
+    "containerTag" "div"
+    "idPrefix" "fc"
+    "scriptPath" "/js/embed-v2.min.js"
+    "marker" "data-fc-embed"
+    "globalName" "FastCommentsUI"
+    "config" .config
+    "seed" .seed) -}}

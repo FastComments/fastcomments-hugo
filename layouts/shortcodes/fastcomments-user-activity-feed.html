@@ -1,0 +1,3 @@
+{{- /* {{< fastcomments-user-activity-feed tenantId="demo" userId="demo:demo-user" >}} - per-user activity feed. */ -}}
+{{- $cfg := partial "fastcomments/config.html" (dict "page" .Page "args" .Params) -}}
+{{- partial "fastcomments/user-activity-feed.html" (dict "config" $cfg "seed" (printf "%s-%d" .Page.RelPermalink .Ordinal)) -}}

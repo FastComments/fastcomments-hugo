@@ -1,0 +1,28 @@
+{{- /*
+  Bulk comment-count widget. Fills in counts for every marker element on the page
+  (see partials/fastcomments/count-marker.html) with a single request. Call it once
+  per page, after the markers, for example at the foot of a list template:
+
+      {{ range .Pages }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ partial "fastcomments/count-marker.html" . }}
+      {{ end }}
+      {{ partial "fastcomments/bulk-count.html" (dict "page" .) }}
+
+  Only tenantId, region, and apiHost are passed to the widget; other config keys do
+  not apply to bulk counts. Renders nothing when no tenantId is configured.
+
+  Expects a dict: { page: <Page>, args: <map> (optional) }
+*/ -}}
+{{- $full := partial "fastcomments/config.html" (dict "page" .page "args" (.args | default dict)) -}}
+{{- $tenantId := index $full "tenantId" -}}
+{{- if $tenantId -}}
+  {{- $cfg := dict "tenantId" $tenantId -}}
+  {{- with index $full "region" -}}{{- $cfg = merge $cfg (dict "region" .) -}}{{- end -}}
+  {{- with index $full "apiHost" -}}{{- $cfg = merge $cfg (dict "apiHost" .) -}}{{- end -}}
+  {{- partial "fastcomments/render-page.html" (dict
+      "scriptPath" "/js/widget-comment-count-bulk.min.js"
+      "marker" "data-fc-count-bulk"
+      "globalName" "FastCommentsCommentCountBulk"
+      "config" $cfg) -}}
+{{- end -}}

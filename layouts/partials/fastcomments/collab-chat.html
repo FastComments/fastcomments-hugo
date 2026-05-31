@@ -1,0 +1,7 @@
+{{- /* Collaborative inline commenting. Requires `target` (CSS selector) in config. Expects: { config: <map> }. */ -}}
+{{- partial "fastcomments/render-selector.html" (dict
+    "scriptPath" "/js/embed-collab-chat.min.js"
+    "marker" "data-fc-collab-chat"
+    "globalName" "FastCommentsCollabChat"
+    "shortcodeName" "fastcomments-collab-chat"
+    "config" .config) -}}

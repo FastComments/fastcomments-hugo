@@ -1,0 +1,40 @@
+{{- /*
+  Shared renderer for "selector" widgets: widgets that attach to an existing
+  element on the page identified by a CSS selector (collab-chat, image-chat).
+  No container element is emitted.
+
+  Port of renderSelectorWidget() in fastcomments-11ty/src/render-widget.ts.
+
+  Expects a dict:
+    scriptPath    string   - CDN path, e.g. "/js/embed-collab-chat.min.js"
+    marker        string   - attribute used to inject the script only once per page
+    globalName    string   - window function that mounts the widget
+    shortcodeName string   - friendly name for the "missing target" error
+    config        map      - widget config, must include "target" (CSS selector)
+*/ -}}
+{{- $config := .config -}}
+{{- $target := index $config "target" -}}
+{{- if not $target -}}
+  {{- errorf "%s requires a \"target\" option (a CSS selector for the element to attach to)." .shortcodeName -}}
+{{- end -}}
+{{- $region := index $config "region" -}}
+{{- $cdn := cond (eq $region "eu") "https://cdn-eu.fastcomments.com" "https://cdn.fastcomments.com" -}}
+{{- $src := printf "%s%s" $cdn .scriptPath -}}
+{{- $g := .globalName -}}
+
+{{- /* Strip "target" from the config object handed to the widget; it is not a widget config field. */ -}}
+{{- $clean := dict -}}
+{{- range $k, $v := $config -}}
+  {{- if ne $k "target" -}}
+    {{- $clean = merge $clean (dict $k $v) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $targetJson := partial "fastcomments/escape-json.html" $target -}}
+{{- $cfgJson := partial "fastcomments/escape-json.html" $clean -}}
+{{- $srcJson := partial "fastcomments/escape-json.html" $src -}}
+{{- $markerJson := partial "fastcomments/escape-json.html" .marker -}}
+{{- $warnJson := partial "fastcomments/escape-json.html" (printf "FastComments %s script did not load within 5s; continuing to retry every 1s." .shortcodeName) -}}
+
+{{- $js := printf "(function(){var target=%s;var config=%s;var scriptSrc=%s;var marker=%s;var startedAt=Date.now();var warned=false;function schedule(){var elapsed=Date.now()-startedAt;if(elapsed>=5000&&!warned){warned=true;console.warn(%s);}setTimeout(init,elapsed<5000?50:1000);}function init(){if(window.%s){var el=document.querySelector(target);if(el){window.%s(el,config);}}else{schedule();}}if(!document.querySelector('script['+marker+']')){var s=document.createElement('script');s.src=scriptSrc;s.setAttribute(marker,'');document.head.appendChild(s);}init();})();" $targetJson $cfgJson $srcJson $markerJson $warnJson $g $g -}}
+<script>{{ $js | safeJS }}</script>

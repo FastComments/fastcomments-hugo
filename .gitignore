@@ -1,0 +1,13 @@
+# Hugo build output
+/public/
+/exampleSite/public/
+/resources/
+/exampleSite/resources/
+.hugo_build.lock
+
+# Go module sums are not needed (local-only module, no external deps)
+go.sum
+/exampleSite/go.sum
+
+# Node
+node_modules/

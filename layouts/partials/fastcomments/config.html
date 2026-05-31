@@ -1,0 +1,33 @@
+{{- /*
+  Build the final FastComments widget config map for a page.
+
+  Merge order (lowest -> highest precedence):
+    site.Params.fastcomments  ->  page front-matter `fastcomments`  ->  caller args
+
+  Hugo lowercases all param/front-matter keys, so every merged key is re-cased back
+  to the camelCase the widgets expect using the canon map (partials/fastcomments/canon.html).
+  When neither `url` nor `urlId` is supplied, `url` defaults to the page permalink so
+  comment identity stays stable across hosts and query strings.
+
+  Expects a dict: { page: <Page>, args: <map> (optional) }
+  Returns: the config map.
+*/ -}}
+{{- $page := .page -}}
+{{- $args := .args | default dict -}}
+{{- $siteCfg := site.Params.fastcomments | default dict -}}
+{{- $pageCfg := $page.Params.fastcomments | default dict -}}
+{{- $merged := merge (merge $siteCfg $pageCfg) $args -}}
+
+{{- /* lowercased -> canonical map; built once per build via partialCached */ -}}
+{{- $canon := partialCached "fastcomments/canon.html" . "fastcomments-canon" -}}
+
+{{- $cfg := dict -}}
+{{- range $k, $v := $merged -}}
+  {{- $name := index $canon (lower $k) | default $k -}}
+  {{- $cfg = merge $cfg (dict $name $v) -}}
+{{- end -}}
+
+{{- if and (not (index $cfg "url")) (not (index $cfg "urlId")) -}}
+  {{- $cfg = merge $cfg (dict "url" $page.Permalink) -}}
+{{- end -}}
+{{- return $cfg -}}

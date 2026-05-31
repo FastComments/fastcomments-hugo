@@ -1,0 +1,27 @@
+{{- /*
+  Shared renderer for "page" widgets: widgets that take only a config object (no
+  element, no target selector) and act on the whole page. Used by the bulk
+  comment-count widget, which scans the page for marker elements itself.
+
+  Same idempotent script injection + 5s warn-then-retry loop as render-container,
+  but the global is invoked as `global(config)` with no element.
+
+  Expects a dict:
+    scriptPath    string   - CDN path, e.g. "/js/widget-comment-count-bulk.min.js"
+    marker        string   - attribute used to inject the script only once per page
+    globalName    string   - window function that mounts the widget
+    config        map      - widget config (must include tenantId)
+*/ -}}
+{{- $config := .config -}}
+{{- $region := index $config "region" -}}
+{{- $cdn := cond (eq $region "eu") "https://cdn-eu.fastcomments.com" "https://cdn.fastcomments.com" -}}
+{{- $src := printf "%s%s" $cdn .scriptPath -}}
+{{- $g := .globalName -}}
+
+{{- $cfgJson := partial "fastcomments/escape-json.html" $config -}}
+{{- $srcJson := partial "fastcomments/escape-json.html" $src -}}
+{{- $markerJson := partial "fastcomments/escape-json.html" .marker -}}
+{{- $warnJson := partial "fastcomments/escape-json.html" (printf "FastComments %s script did not load within 5s; continuing to retry every 1s." $g) -}}
+
+{{- $js := printf "(function(){var config=%s;var scriptSrc=%s;var marker=%s;var startedAt=Date.now();var warned=false;function schedule(){var elapsed=Date.now()-startedAt;if(elapsed>=5000&&!warned){warned=true;console.warn(%s);}setTimeout(init,elapsed<5000?50:1000);}function init(){if(window.%s){window.%s(config);}else{schedule();}}if(!document.querySelector('script['+marker+']')){var s=document.createElement('script');s.src=scriptSrc;s.setAttribute(marker,'');document.head.appendChild(s);}init();})();" $cfgJson $srcJson $markerJson $warnJson $g $g -}}
+<script>{{ $js | safeJS }}</script>

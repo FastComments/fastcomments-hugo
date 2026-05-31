@@ -1,0 +1,9 @@
+{{- /* Recently active discussion threads. Expects: { config: <map>, seed: <string> }. */ -}}
+{{- partial "fastcomments/render-container.html" (dict
+    "containerTag" "div"
+    "idPrefix" "fc-recent-discussions"
+    "scriptPath" "/js/widget-recent-discussions-v2.min.js"
+    "marker" "data-fc-recent-discussions-v2"
+    "globalName" "FastCommentsRecentDiscussionsV2"
+    "config" .config
+    "seed" .seed) -}}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: -apple-system, system-ui, Segoe UI, Roboto, sans-serif; line-height: 1.55; margin: 0; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+    header.site { border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent); }
+    header.site .wrap { padding: 1rem 1.25rem; display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+    header.site a.brand { font-weight: 700; text-decoration: none; color: inherit; }
+    nav.site a { text-decoration: none; color: inherit; opacity: .8; margin-right: .9rem; font-size: .95rem; }
+    nav.site a:hover { opacity: 1; }
+    h1 { line-height: 1.15; }
+    code { background: color-mix(in srgb, currentColor 10%, transparent); padding: .1em .35em; border-radius: 4px; }
+    .widget { margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="{{ "/" | relURL }}">FastComments + Hugo</a>
+      <nav class="site">
+        <a href="{{ "/comments/" | relURL }}">Comments</a>
+        <a href="{{ "/comment-count/" | relURL }}">Count</a>
+        <a href="{{ "/live-chat/" | relURL }}">Live Chat</a>
+        <a href="{{ "/collab-chat/" | relURL }}">Collab</a>
+        <a href="{{ "/image-chat/" | relURL }}">Image</a>
+        <a href="{{ "/recent-comments/" | relURL }}">Recent</a>
+        <a href="{{ "/top-pages/" | relURL }}">Top Pages</a>
+        <a href="{{ "/reviews-summary/" | relURL }}">Reviews</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    {{ block "main" . }}{{ end }}
+  </main>
+</body>
+</html>

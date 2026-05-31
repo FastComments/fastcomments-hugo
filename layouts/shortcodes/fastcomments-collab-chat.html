@@ -1,0 +1,3 @@
+{{- /* {{< fastcomments-collab-chat tenantId="demo" target="#post-body" >}} - inline collab commenting. */ -}}
+{{- $cfg := partial "fastcomments/config.html" (dict "page" .Page "args" .Params) -}}
+{{- partial "fastcomments/collab-chat.html" (dict "config" $cfg) -}}

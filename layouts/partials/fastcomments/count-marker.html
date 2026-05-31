@@ -1,0 +1,12 @@
+{{- /*
+  One bulk comment-count placeholder for the given page. The bulk widget
+  (partials/fastcomments/bulk-count.html) finds these elements by class and fills
+  in their counts. `data-fast-comments-url-id` is set to the same identifier the
+  comments widget uses on that page: its urlId, or its url/permalink when no urlId
+  is set, so the counts match the actual threads.
+
+  Expects the page (.) as context.
+*/ -}}
+{{- $cfg := partial "fastcomments/config.html" (dict "page" .) -}}
+{{- $id := index $cfg "urlId" | default (index $cfg "url") -}}
+<span class="fast-comments-count" data-fast-comments-url-id="{{ $id }}"></span>

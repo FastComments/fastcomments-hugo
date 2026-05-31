@@ -1,0 +1,9 @@
+{{- /* Recent comments across the site. Expects: { config: <map>, seed: <string> }. */ -}}
+{{- partial "fastcomments/render-container.html" (dict
+    "containerTag" "div"
+    "idPrefix" "fc-recent-comments"
+    "scriptPath" "/js/widget-recent-comments-v2.min.js"
+    "marker" "data-fc-recent-comments-v2"
+    "globalName" "FastCommentsRecentCommentsV2"
+    "config" .config
+    "seed" .seed) -}}

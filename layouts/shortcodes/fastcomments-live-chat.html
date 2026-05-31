@@ -1,0 +1,3 @@
+{{- /* {{< fastcomments-live-chat tenantId="demo" >}} - live chat widget. */ -}}
+{{- $cfg := partial "fastcomments/config.html" (dict "page" .Page "args" .Params) -}}
+{{- partial "fastcomments/live-chat.html" (dict "config" $cfg "seed" (printf "%s-%d" .Page.RelPermalink .Ordinal)) -}}

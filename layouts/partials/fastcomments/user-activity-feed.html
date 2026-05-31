@@ -1,0 +1,11 @@
+{{- /* Per-user activity feed. Requires `userId` in config. Expects: { config: <map>, seed: <string> }. */ -}}
+{{- partial "fastcomments/render-container.html" (dict
+    "containerTag" "div"
+    "idPrefix" "fc-activity"
+    "scriptPath" "/js/embed-user-activity.min.js"
+    "marker" "data-fc-user-activity"
+    "globalName" "FastCommentsUserActivity"
+    "useCallback" true
+    "errorLabel" "User Activity"
+    "config" .config
+    "seed" .seed) -}}

@@ -1,0 +1,6 @@
+# Hugo Module configuration for the FastComments theme component.
+# Sites consume this either as a Hugo Module (module.imports) or as a
+# classic theme component cloned into themes/fastcomments-hugo.
+[module]
+  [module.hugoVersion]
+    min = "0.116.0"

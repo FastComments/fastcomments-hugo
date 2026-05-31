@@ -1,0 +1,8 @@
+{{- /*
+  Serialize the given value to JSON, safe for embedding in an inline <script>.
+  Hugo's jsonify (Go's json marshaller) escapes <, >, &, U+2028 and U+2029 by
+  default, which is exactly what keeps a value containing "</script>" from
+  breaking out of the script block. (Unlike JS JSON.stringify, which is why the
+  fastcomments-11ty port needs an explicit escapeForScript() and this does not.)
+*/ -}}
+{{- return (jsonify .) -}}

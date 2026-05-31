@@ -1,0 +1,9 @@
+{{- /* Most-discussed pages. Expects: { config: <map>, seed: <string> }. */ -}}
+{{- partial "fastcomments/render-container.html" (dict
+    "containerTag" "div"
+    "idPrefix" "fc-top-pages"
+    "scriptPath" "/js/widget-top-pages-v2.min.js"
+    "marker" "data-fc-top-pages-v2"
+    "globalName" "FastCommentsTopPagesV2"
+    "config" .config
+    "seed" .seed) -}}

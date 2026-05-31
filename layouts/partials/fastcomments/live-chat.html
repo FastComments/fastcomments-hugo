@@ -1,0 +1,9 @@
+{{- /* Live chat widget. Expects: { config: <map>, seed: <string> }. */ -}}
+{{- partial "fastcomments/render-container.html" (dict
+    "containerTag" "div"
+    "idPrefix" "fc-live-chat"
+    "scriptPath" "/js/embed-live-chat.min.js"
+    "marker" "data-fc-live-chat"
+    "globalName" "FastCommentsLiveChat"
+    "config" .config
+    "seed" .seed) -}}

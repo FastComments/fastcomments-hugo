@@ -1,0 +1,3 @@
+{{- /* {{< fastcomments-reviews-summary tenantId="demo" >}} - star-rating reviews summary. */ -}}
+{{- $cfg := partial "fastcomments/config.html" (dict "page" .Page "args" .Params) -}}
+{{- partial "fastcomments/reviews-summary.html" (dict "config" $cfg "seed" (printf "%s-%d" .Page.RelPermalink .Ordinal)) -}}

@@ -1,0 +1,11 @@
+{{- /* Star-rating reviews summary. Expects: { config: <map>, seed: <string> }. */ -}}
+{{- partial "fastcomments/render-container.html" (dict
+    "containerTag" "div"
+    "idPrefix" "fc-rs"
+    "scriptPath" "/js/embed-reviews-summary.min.js"
+    "marker" "data-fc-reviews-summary"
+    "globalName" "FastCommentsReviewsSummaryWidget"
+    "useCallback" true
+    "errorLabel" "Reviews Summary"
+    "config" .config
+    "seed" .seed) -}}
