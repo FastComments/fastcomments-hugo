@@ -3,8 +3,8 @@
 // --baseURL prefixes every relURL / .RelPermalink link with
 // /commenting-system-for-hugo/ so the site works when served under that path
 // (Hugo's equivalent of Jekyll's --baseurl / 11ty's pathPrefix). The exampleSite
-// consumes the theme via a symlink (themes/fastcomments-hugo -> repo root), so
-// this needs only the hugo binary, no Go toolchain.
+// consumes the theme as a Hugo Module (exampleSite/go.mod replaces it with the
+// repo root), so the build needs both the hugo and go binaries.
 import { execSync } from 'node:child_process';
 import { rmSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
