@@ -1,11 +1,8 @@
 +++
 title = "Recent Discussions"
-description = "Recently active discussion threads"
-comments = false
+category = "Widgets"
+description = "Your most active threads, ranked by recent activity."
+code = "{{< fastcomments-recent-discussions >}}"
 +++
 
 {{< fastcomments-recent-discussions >}}
-
-```text
-{{</* fastcomments-recent-discussions */>}}
-```

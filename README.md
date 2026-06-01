@@ -1,6 +1,6 @@
 # fastcomments-hugo
 
-A fast, full-featured live commenting system for [Hugo](https://gohugo.io), powered by [FastComments](https://fastcomments.com).
+Live commenting, chat, reviews, and comment-count widgets for [Hugo](https://gohugo.io), powered by [FastComments](https://fastcomments.com).
 
 Ships as a Hugo theme component (also importable as a Hugo Module). It adds a `fastcomments/comments.html` partial for theme authors and a shortcode for every FastComments widget, with no build-time JavaScript and no external dependencies.
 
@@ -72,7 +72,7 @@ Then either wire the comments widget into your theme (see [Theme Integration](#t
 
 | Shortcode | Description |
 | --- | --- |
-| `fastcomments` | Commenting widget with replies, voting, and more |
+| `fastcomments` | Threaded comments with replies, voting, and @mentions |
 | `fastcomments-comment-count` | Comment count for a single page |
 | `fastcomments-comment-count-bulk` | Comment counts for many pages in one request (see [Bulk comment counts](#bulk-comment-counts)) |
 | `fastcomments-live-chat` | Live chat widget |

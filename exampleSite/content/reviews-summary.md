@@ -1,11 +1,8 @@
 +++
 title = "Reviews Summary"
-description = "Star-rating reviews overview"
-comments = false
+category = "Widgets"
+description = "A star-rating aggregate with distribution breakdown."
+code = "{{< fastcomments-reviews-summary >}}"
 +++
 
 {{< fastcomments-reviews-summary >}}
-
-```text
-{{</* fastcomments-reviews-summary */>}}
-```

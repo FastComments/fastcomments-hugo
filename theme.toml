@@ -1,7 +1,7 @@
 name = "FastComments"
 license = "MIT"
 licenselink = "https://github.com/FastComments/fastcomments-hugo/blob/main/LICENSE"
-description = "A fast, full-featured live commenting system for Hugo, powered by FastComments."
+description = "Live commenting, chat, reviews, and comment-count widgets for Hugo, powered by FastComments."
 homepage = "https://fastcomments.com/commenting-system-for-hugo"
 demosite = "https://fastcomments.com/commenting-system-for-hugo"
 min_version = "0.116.0"

@@ -1,11 +1,8 @@
 +++
 title = "Recent Comments"
-description = "Latest comments across the whole site"
-comments = false
+category = "Widgets"
+description = "A cross-site stream of the latest comments on your tenant."
+code = "{{< fastcomments-recent-comments >}}"
 +++
 
 {{< fastcomments-recent-comments >}}
-
-```text
-{{</* fastcomments-recent-comments */>}}
-```

@@ -34,8 +34,8 @@ const cases = [
   { path: 'collab-chat', mustInclude: [`${cdn}/embed-collab-chat.min.js`, 'window.FastCommentsCollabChat(', 'var target="#post-body"'] },
   { path: 'image-chat', mustInclude: [`${cdn}/embed-image-chat.min.js`, 'window.FastCommentsImageChat(', 'var target="#hero"'] },
   { path: 'eu', mustInclude: ['cdn-eu.fastcomments.com/js/embed-v2.min.js', 'window.FastCommentsUI('] },
-  // Home/list page demonstrates the bulk count widget: one init + per-item markers.
-  { path: '', label: 'home (bulk-count)', mustInclude: [`${cdn}/widget-comment-count-bulk.min.js`, 'window.FastCommentsCommentCountBulk(', 'class="fast-comments-count" data-fast-comments-url-id='] },
+  // Bulk count widget: one init + per-item markers.
+  { path: 'bulk-count', mustInclude: [`${cdn}/widget-comment-count-bulk.min.js`, 'window.FastCommentsCommentCountBulk(', 'class="fast-comments-count" data-fast-comments-url-id='] },
 ];
 
 function build() {

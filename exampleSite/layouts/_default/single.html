@@ -1,11 +1,29 @@
 {{ define "main" }}
-<article>
-  <h1>{{ .Title }}</h1>
-  {{ .Content }}
-  {{- /* Disqus-style theme wiring: self-gates on tenantId and `comments = false`.
-        Showcase pages that demonstrate a different widget opt out via front matter. */ -}}
-  <div class="widget">
-    {{ partial "fastcomments/comments.html" . }}
+<div class="fc-demo">
+  <header class="fc-demo__head">
+    <div>
+      <div class="fc-demo__breadcrumb">{{ .Params.category | default "Widgets" }} <em>/ {{ .Title }}</em></div>
+      <h1 class="fc-demo__title">{{ .Title }}</h1>
+      {{ with .Description }}<p class="fc-demo__subtitle">{{ . }}</p>{{ end }}
+    </div>
+    <div class="fc-demo__actions">
+      <span class="fc-tag fc-tag--brand">Tenant · {{ site.Params.fastcomments.tenantId }}</span>
+      {{ with .Params.requires }}<span class="fc-tag">{{ . }}</span>{{ end }}
+    </div>
+  </header>
+
+  <div class="fc-stage__panel fc-stage__panel--light">
+    {{ if .Params.usePartial }}{{ partial "fastcomments/comments.html" . }}{{ else }}{{ .Content }}{{ end }}
   </div>
-</article>
+
+  {{ with .Params.code }}
+  <div class="fc-code-panel">
+    <div class="fc-code-panel__head">
+      <span class="fc-code-panel__head-label">content/{{ $.File.Path }}</span>
+      <button type="button" class="fc-code-panel__copy" data-fc-copy-for="fc-code">Copy</button>
+    </div>
+    <pre id="fc-code" class="fc-code-panel__body">{{ . }}</pre>
+  </div>
+  {{ end }}
+</div>
 {{ end }}

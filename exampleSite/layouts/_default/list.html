@@ -1,11 +1,85 @@
 {{ define "main" }}
-<h1>{{ site.Title }}</h1>
-{{ .Content }}
-<p>Every widget shipped by <code>fastcomments-hugo</code>, running against the public <code>demo</code> tenant. The count next to each link is the bulk comment-count widget, filling in every page's count in one request:</p>
-<ul>
-  {{ range .Pages.ByTitle }}
-    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a> {{ partial "fastcomments/count-marker.html" . }}{{ with .Description }} - {{ . }}{{ end }}</li>
+{{ $tenant := site.Params.fastcomments.tenantId }}
+{{ $widgets := slice
+  (dict "href" "/comments/" "label" "Live Comments" "hint" "Threaded replies, voting, moderation, and media.")
+  (dict "href" "/live-chat/" "label" "Live Chat" "hint" "Realtime streaming chat for live events.")
+  (dict "href" "/collab-chat/" "label" "Collab Chat" "hint" "Anchor threads to text selections in content.")
+  (dict "href" "/image-chat/" "label" "Image Chat" "hint" "Pin discussions to regions of any image.")
+  (dict "href" "/recent-comments/" "label" "Recent Comments" "hint" "The latest comments across the tenant.")
+  (dict "href" "/recent-discussions/" "label" "Recent Discussions" "hint" "The most active threads, ranked.")
+  (dict "href" "/top-pages/" "label" "Top Pages" "hint" "Pages ranked by comment activity.")
+  (dict "href" "/reviews-summary/" "label" "Reviews Summary" "hint" "Star-rating aggregate with breakdown.")
+  (dict "href" "/user-activity-feed/" "label" "Activity Feed" "hint" "One user's chronological timeline.")
+}}
+{{ $flows := slice
+  (dict "href" "/comment-count/" "label" "Comment Count" "hint" "Inline count for a single page.")
+  (dict "href" "/bulk-count/" "label" "Bulk Comment Count" "hint" "Every count on the page in one request.")
+  (dict "href" "/eu/" "label" "EU Region" "hint" "Pin reads and writes to the EU datacenter.")
+}}
+
+<div class="fc-hero">
+  <div>
+    <div class="fc-hero__label">fastcomments / hugo · showcase</div>
+    <h1 class="fc-hero__title">Comment<br>infrastructure<br><em>for Hugo.</em></h1>
+    <p class="fc-hero__body">
+      Every shortcode and partial shipped by <code style="font-family: var(--fc-mono); color: var(--fc-ink);">fastcomments-hugo</code>,
+      rendered against the public demo tenant. Each route is one static Hugo page you can copy into your own site.
+    </p>
+  </div>
+
+  <div class="fc-hero__meta">
+    <div class="fc-meta-card">
+      <div class="fc-meta-card__key">Widgets</div>
+      <div class="fc-meta-card__value fc-meta-card__value--gradient">{{ len $widgets }}</div>
+    </div>
+    <div class="fc-meta-card">
+      <div class="fc-meta-card__key">Counts &amp; config</div>
+      <div class="fc-meta-card__value">{{ len $flows }}</div>
+    </div>
+    <div class="fc-meta-card">
+      <div class="fc-meta-card__key">Module</div>
+      <div class="fc-meta-card__value" style="font-family: var(--fc-mono); font-size: 14px; margin-top: 10px;">fastcomments-hugo</div>
+    </div>
+    <div class="fc-meta-card">
+      <div class="fc-meta-card__key">Rendering</div>
+      <div class="fc-meta-card__value" style="font-family: var(--fc-mono); font-size: 14px; margin-top: 10px;">SSG</div>
+    </div>
+  </div>
+</div>
+
+<div class="fc-section-title">
+  <span>01</span>
+  <h2>Widgets</h2>
+  <div class="fc-rule"></div>
+  <span>{{ len $widgets }} components</span>
+</div>
+
+<div class="fc-grid">
+  {{ range $i, $item := $widgets }}
+    <a class="fc-card" href="{{ .href | relURL }}" style="animation: fc-rise 480ms ease both; animation-delay: {{ mul $i 40 }}ms;">
+      <span class="fc-card__kind">widget</span>
+      <span class="fc-card__title">{{ .label }}</span>
+      <span class="fc-card__hint">{{ .hint }}</span>
+      <span class="fc-card__cta">Open example</span>
+    </a>
   {{ end }}
-</ul>
-{{ partial "fastcomments/bulk-count.html" (dict "page" .) }}
+</div>
+
+<div class="fc-section-title">
+  <span>02</span>
+  <h2>Counts &amp; configuration</h2>
+  <div class="fc-rule"></div>
+  <span>{{ len $flows }} recipes</span>
+</div>
+
+<div class="fc-grid">
+  {{ range $i, $item := $flows }}
+    <a class="fc-card" href="{{ .href | relURL }}" style="animation: fc-rise 480ms ease both; animation-delay: {{ mul $i 40 }}ms;">
+      <span class="fc-card__kind">recipe</span>
+      <span class="fc-card__title">{{ .label }}</span>
+      <span class="fc-card__hint">{{ .hint }}</span>
+      <span class="fc-card__cta">Open example</span>
+    </a>
+  {{ end }}
+</div>
 {{ end }}

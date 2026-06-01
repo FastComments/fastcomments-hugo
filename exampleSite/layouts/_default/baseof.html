@@ -4,38 +4,168 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
-  <style>
-    :root { color-scheme: light dark; }
-    body { font-family: -apple-system, system-ui, Segoe UI, Roboto, sans-serif; line-height: 1.55; margin: 0; }
-    .wrap { max-width: 760px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
-    header.site { border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent); }
-    header.site .wrap { padding: 1rem 1.25rem; display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
-    header.site a.brand { font-weight: 700; text-decoration: none; color: inherit; }
-    nav.site a { text-decoration: none; color: inherit; opacity: .8; margin-right: .9rem; font-size: .95rem; }
-    nav.site a:hover { opacity: 1; }
-    h1 { line-height: 1.15; }
-    code { background: color-mix(in srgb, currentColor 10%, transparent); padding: .1em .35em; border-radius: 4px; }
-    .widget { margin-top: 2rem; }
-  </style>
+  <script>
+    (function () {
+      try {
+        var s = localStorage.getItem('fc-showcase-theme');
+        if (s !== 'light' && s !== 'dark') {
+          s = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-fc-theme', s);
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="{{ "/fastcomments-showcase.css" | relURL }}">
 </head>
 <body>
-  <header class="site">
-    <div class="wrap">
-      <a class="brand" href="{{ "/" | relURL }}">FastComments + Hugo</a>
-      <nav class="site">
-        <a href="{{ "/comments/" | relURL }}">Comments</a>
-        <a href="{{ "/comment-count/" | relURL }}">Count</a>
-        <a href="{{ "/live-chat/" | relURL }}">Live Chat</a>
-        <a href="{{ "/collab-chat/" | relURL }}">Collab</a>
-        <a href="{{ "/image-chat/" | relURL }}">Image</a>
-        <a href="{{ "/recent-comments/" | relURL }}">Recent</a>
-        <a href="{{ "/top-pages/" | relURL }}">Top Pages</a>
-        <a href="{{ "/reviews-summary/" | relURL }}">Reviews</a>
+  <div class="fc-shell">
+    <aside class="fc-rail">
+      <a class="fc-brand" href="{{ "/" | relURL }}">
+        <img class="fc-brand__logo fc-brand__logo--light" src="https://fastcomments.com/images/svg/v2/logo.svg" alt="FastComments">
+        <img class="fc-brand__logo fc-brand__logo--dark" src="https://fastcomments.com/images/svg/v2/logo_white.svg" alt="" aria-hidden="true">
+        <span class="fc-brand__wordmark">
+          <span class="fc-brand__name">FastComments</span>
+          <span class="fc-brand__slug">Hugo · showcase</span>
+        </span>
+      </a>
+
+      {{ $cur := .RelPermalink }}
+      <nav class="fc-nav" aria-label="Examples">
+        <div class="fc-nav__group">
+          <div class="fc-nav__heading"><span>01</span><em>Widgets</em></div>
+          {{ $widgets := slice
+            (dict "href" "/comments/" "label" "Live Comments" "hint" "Replies, voting, moderation, media")
+            (dict "href" "/live-chat/" "label" "Live Chat" "hint" "Realtime streaming chat")
+            (dict "href" "/collab-chat/" "label" "Collab Chat" "hint" "Threads anchored to text")
+            (dict "href" "/image-chat/" "label" "Image Chat" "hint" "Pin comments to image regions")
+            (dict "href" "/recent-comments/" "label" "Recent Comments" "hint" "Latest comments site-wide")
+            (dict "href" "/recent-discussions/" "label" "Recent Discussions" "hint" "Most active threads")
+            (dict "href" "/top-pages/" "label" "Top Pages" "hint" "Pages ranked by activity")
+            (dict "href" "/reviews-summary/" "label" "Reviews Summary" "hint" "Star-rating aggregate")
+            (dict "href" "/user-activity-feed/" "label" "Activity Feed" "hint" "One user's timeline")
+          }}
+          {{ range $widgets }}
+            <a class="fc-nav__item {{ if eq $cur (relURL .href) }}is-active{{ end }}" href="{{ .href | relURL }}">
+              <span class="fc-nav__item-label">{{ .label }}</span>
+              <span class="fc-nav__item-hint">{{ .hint }}</span>
+            </a>
+          {{ end }}
+        </div>
+
+        <div class="fc-nav__group">
+          <div class="fc-nav__heading"><span>02</span><em>Counts &amp; configuration</em></div>
+          {{ $flows := slice
+            (dict "href" "/comment-count/" "label" "Comment Count" "hint" "Inline count for one page")
+            (dict "href" "/bulk-count/" "label" "Bulk Comment Count" "hint" "Every count in one request")
+            (dict "href" "/eu/" "label" "EU Region" "hint" "Reads and writes from the EU CDN")
+          }}
+          {{ range $flows }}
+            <a class="fc-nav__item {{ if eq $cur (relURL .href) }}is-active{{ end }}" href="{{ .href | relURL }}">
+              <span class="fc-nav__item-label">{{ .label }}</span>
+              <span class="fc-nav__item-hint">{{ .hint }}</span>
+            </a>
+          {{ end }}
+        </div>
       </nav>
-    </div>
-  </header>
-  <main class="wrap">
-    {{ block "main" . }}{{ end }}
-  </main>
+
+      <footer class="fc-rail__foot">
+        <div class="fc-theme-toggle" role="group" aria-label="Theme">
+          <button type="button" class="fc-theme-toggle__btn" data-fc-theme-btn="light">Light</button>
+          <button type="button" class="fc-theme-toggle__btn" data-fc-theme-btn="dark">Dark</button>
+        </div>
+        <div><code>hugo mod get github.com/FastComments/fastcomments-hugo</code></div>
+        <a href="https://fastcomments.com" rel="noopener">fastcomments.com</a>
+      </footer>
+    </aside>
+
+    <main class="fc-stage">{{ block "main" . }}{{ end }}</main>
+  </div>
+
+  <script>
+    (function () {
+      var STORAGE = 'fc-showcase-theme';
+      var USER_SET = STORAGE + ':user-set';
+
+      function initialTheme() {
+        try {
+          var stored = window.localStorage.getItem(STORAGE);
+          if (stored === 'light' || stored === 'dark') return stored;
+        } catch (_) {}
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      // Capture widget instances that expose update(), so the theme toggle can recolor
+      // already-mounted widgets by re-applying hasDarkBackground.
+      window.__fcInstances = window.__fcInstances || [];
+      ['FastCommentsUI', 'FastCommentsLiveChat', 'FastCommentsCollabChat', 'FastCommentsImageChat', 'FastCommentsReviewsSummaryWidget', 'FastCommentsUserActivity', 'FastCommentsCommentCount', 'FastCommentsRecentCommentsV2', 'FastCommentsRecentDiscussionsV2', 'FastCommentsTopPagesV2'].forEach(function (name) {
+        var desc = Object.getOwnPropertyDescriptor(window, name);
+        if (desc && desc.__fcPatched) return;
+        var current;
+        Object.defineProperty(window, name, {
+          configurable: true,
+          get: function () {
+            if (!current) return undefined;
+            return function () {
+              var inst = current.apply(this, arguments);
+              if (inst && typeof inst.update === 'function') {
+                window.__fcInstances.push({ inst: inst, base: arguments[arguments.length - 1] });
+              }
+              return inst;
+            };
+          },
+          set: function (v) { current = v; }
+        });
+        Object.getOwnPropertyDescriptor(window, name).__fcPatched = true;
+      });
+
+      function applyTheme(next) {
+        document.documentElement.dataset.fcTheme = next;
+        try { window.localStorage.setItem(STORAGE, next); } catch (_) {}
+        document.querySelectorAll('[data-fc-theme-btn]').forEach(function (b) {
+          b.classList.toggle('is-active', b.getAttribute('data-fc-theme-btn') === next);
+        });
+        var isDark = next === 'dark';
+        (window.__fcInstances || []).forEach(function (entry) {
+          try {
+            var merged = Object.assign({}, entry.base, { hasDarkBackground: isDark });
+            entry.inst.update(merged);
+          } catch (_) {}
+        });
+      }
+
+      applyTheme(initialTheme());
+
+      document.addEventListener('click', function (e) {
+        var t = e.target;
+        if (t && t.matches && t.matches('[data-fc-theme-btn]')) {
+          try { window.localStorage.setItem(USER_SET, '1'); } catch (_) {}
+          applyTheme(t.getAttribute('data-fc-theme-btn'));
+        }
+      });
+
+      if (window.matchMedia) {
+        var mq = window.matchMedia('(prefers-color-scheme: dark)');
+        var handler = function (e) {
+          var userSet;
+          try { userSet = window.localStorage.getItem(USER_SET); } catch (_) {}
+          if (!userSet) applyTheme(e.matches ? 'dark' : 'light');
+        };
+        if (mq.addEventListener) mq.addEventListener('change', handler);
+      }
+
+      document.addEventListener('click', function (e) {
+        var t = e.target;
+        if (!t || !t.matches || !t.matches('[data-fc-copy-for]')) return;
+        var id = t.getAttribute('data-fc-copy-for');
+        var pre = id ? document.getElementById(id) : null;
+        if (!pre) return;
+        navigator.clipboard.writeText(pre.textContent || '').then(function () {
+          var prev = t.textContent;
+          t.textContent = 'Copied';
+          setTimeout(function () { t.textContent = prev; }, 1200);
+        }).catch(function () {});
+      });
+    })();
+  </script>
 </body>
 </html>

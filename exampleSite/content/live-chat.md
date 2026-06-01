@@ -1,11 +1,8 @@
 +++
 title = "Live Chat"
-description = "Realtime streaming chat"
-comments = false
+category = "Widgets"
+description = "Realtime streaming chat for live events and broadcasts."
+code = "{{< fastcomments-live-chat >}}"
 +++
 
 {{< fastcomments-live-chat >}}
-
-```text
-{{</* fastcomments-live-chat */>}}
-```

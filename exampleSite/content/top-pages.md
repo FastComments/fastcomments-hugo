@@ -1,11 +1,8 @@
 +++
 title = "Top Pages"
-description = "Pages ranked by comment activity"
-comments = false
+category = "Widgets"
+description = "Pages ranked by comment activity."
+code = "{{< fastcomments-top-pages >}}"
 +++
 
 {{< fastcomments-top-pages >}}
-
-```text
-{{</* fastcomments-top-pages */>}}
-```
