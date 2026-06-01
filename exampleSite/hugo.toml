@@ -1,11 +1,11 @@
 baseURL = "https://example.com/"
 title = "FastComments + Hugo"
 
-# Use the local copy of the theme (one directory up) via a Go module replacement,
-# so `hugo server` here builds against the templates you are editing.
-[module]
-  [[module.imports]]
-    path = "github.com/FastComments/fastcomments-hugo"
+# Consume the theme as a classic theme component (themes/fastcomments-hugo is a
+# symlink to the repo root). This keeps the demo build dependency-free: just the
+# hugo binary, no Go toolchain. Consumers can still use the Hugo Module install
+# path (see the README); that is independent of how this exampleSite builds.
+theme = "fastcomments-hugo"
 
 # Collab/image chat demo pages embed raw <div>/<img> targets in Markdown.
 [markup.goldmark.renderer]

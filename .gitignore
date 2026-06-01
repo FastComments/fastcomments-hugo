@@ -3,6 +3,7 @@
 /exampleSite/public/
 /resources/
 /exampleSite/resources/
+/demo-dist/
 .hugo_build.lock
 
 # Go module sums are not needed (local-only module, no external deps)

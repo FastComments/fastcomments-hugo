@@ -15,12 +15,12 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="{{ "/fastcomments-showcase.css" | relURL }}">
+  <link rel="stylesheet" href="{{ "fastcomments-showcase.css" | relURL }}">
 </head>
 <body>
   <div class="fc-shell">
     <aside class="fc-rail">
-      <a class="fc-brand" href="{{ "/" | relURL }}">
+      <a class="fc-brand" href="{{ "" | relURL }}">
         <img class="fc-brand__logo fc-brand__logo--light" src="https://fastcomments.com/images/svg/v2/logo.svg" alt="FastComments">
         <img class="fc-brand__logo fc-brand__logo--dark" src="https://fastcomments.com/images/svg/v2/logo_white.svg" alt="" aria-hidden="true">
         <span class="fc-brand__wordmark">
@@ -45,7 +45,7 @@
             (dict "href" "/user-activity-feed/" "label" "Activity Feed" "hint" "One user's timeline")
           }}
           {{ range $widgets }}
-            <a class="fc-nav__item {{ if eq $cur (relURL .href) }}is-active{{ end }}" href="{{ .href | relURL }}">
+            <a class="fc-nav__item {{ if eq $cur (.href | strings.TrimPrefix "/" | relURL) }}is-active{{ end }}" href="{{ .href | strings.TrimPrefix "/" | relURL }}">
               <span class="fc-nav__item-label">{{ .label }}</span>
               <span class="fc-nav__item-hint">{{ .hint }}</span>
             </a>
@@ -60,7 +60,7 @@
             (dict "href" "/eu/" "label" "EU Region" "hint" "Reads and writes from the EU CDN")
           }}
           {{ range $flows }}
-            <a class="fc-nav__item {{ if eq $cur (relURL .href) }}is-active{{ end }}" href="{{ .href | relURL }}">
+            <a class="fc-nav__item {{ if eq $cur (.href | strings.TrimPrefix "/" | relURL) }}is-active{{ end }}" href="{{ .href | strings.TrimPrefix "/" | relURL }}">
               <span class="fc-nav__item-label">{{ .label }}</span>
               <span class="fc-nav__item-hint">{{ .hint }}</span>
             </a>

@@ -56,7 +56,7 @@
 
 <div class="fc-grid">
   {{ range $i, $item := $widgets }}
-    <a class="fc-card" href="{{ .href | relURL }}" style="animation: fc-rise 480ms ease both; animation-delay: {{ mul $i 40 }}ms;">
+    <a class="fc-card" href="{{ .href | strings.TrimPrefix "/" | relURL }}" style="animation: fc-rise 480ms ease both; animation-delay: {{ mul $i 40 }}ms;">
       <span class="fc-card__kind">widget</span>
       <span class="fc-card__title">{{ .label }}</span>
       <span class="fc-card__hint">{{ .hint }}</span>
@@ -74,7 +74,7 @@
 
 <div class="fc-grid">
   {{ range $i, $item := $flows }}
-    <a class="fc-card" href="{{ .href | relURL }}" style="animation: fc-rise 480ms ease both; animation-delay: {{ mul $i 40 }}ms;">
+    <a class="fc-card" href="{{ .href | strings.TrimPrefix "/" | relURL }}" style="animation: fc-rise 480ms ease both; animation-delay: {{ mul $i 40 }}ms;">
       <span class="fc-card__kind">recipe</span>
       <span class="fc-card__title">{{ .label }}</span>
       <span class="fc-card__hint">{{ .hint }}</span>
