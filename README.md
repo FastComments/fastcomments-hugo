@@ -6,7 +6,7 @@ Ships as a Hugo theme component (also importable as a Hugo Module). It adds a `f
 
 ## Live Demo
 
-Try every widget live at <https://fastcomments.com/commenting-system-for-hugo>.
+Try every widget live at <https://fastcomments.com/commenting-system-for-hugo/>.
 
 ## Live Showcase
 
